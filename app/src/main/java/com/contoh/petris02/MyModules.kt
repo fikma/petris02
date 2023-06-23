@@ -1,7 +1,7 @@
 package com.contoh.petris02
 
-import com.contoh.petris02.viewModel.BoardState
-import com.contoh.petris02.viewModel.GameState
+import com.contoh.petris02.models.BoardState
+import com.contoh.petris02.models.GameState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

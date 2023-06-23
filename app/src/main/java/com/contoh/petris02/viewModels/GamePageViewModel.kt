@@ -1,6 +1,7 @@
-package com.contoh.petris02.viewModel
+package com.contoh.petris02.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.contoh.petris02.models.GameState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

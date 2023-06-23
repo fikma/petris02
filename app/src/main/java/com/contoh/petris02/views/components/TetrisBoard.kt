@@ -1,12 +1,12 @@
-package com.contoh.petris02.widgets
+package com.contoh.petris02.views.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,20 +14,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.contoh.petris02.viewModel.BoardState
-import com.contoh.petris02.viewModel.GamePageViewModel
-import com.contoh.petris02.viewModel.GameState
-import com.contoh.petris02.viewModel.TetrisBoardViewModel
+import com.contoh.petris02.models.BoardState
+import com.contoh.petris02.models.GameState
+import com.contoh.petris02.viewModels.GamePageViewModel
+import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun TetrisBoard(
-    tetrisBoardViewModel: TetrisBoardViewModel = viewModel(),
     gamePageViewModel: GamePageViewModel = viewModel(),
+    tetrisBoardViewModel: TetrisBoardViewModel = viewModel(),
 ) {
     val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(tetrisBoardViewModel.counter.value) {
+    LaunchedEffect(tetrisBoardViewModel.boardState.toggle.value) {
         coroutineScope.launch {
             delay(gamePageViewModel.gameState.speed)
             gamePageViewModel.runUpdate()
@@ -36,15 +36,18 @@ fun TetrisBoard(
     }
 
     Box(modifier = Modifier
-        .width((tetrisBoardViewModel.boardState.blockSize * 10).dp)
-        .height((tetrisBoardViewModel.boardState.blockSize * 20).dp)) {
+        .width(
+            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.xSize).dp)
+        .height(
+            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.ySize).dp)
+    ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(10)
         ) {
             items(tetrisBoardViewModel.boardState.blocks) { block ->
                 Box(modifier = Modifier
                     .size(block.size)
-                    .background(color = block.color))
+                    .background(color = block.color ?: MaterialTheme.colorScheme.primaryContainer))
             }
         }
     }
@@ -53,11 +56,17 @@ fun TetrisBoard(
 @Preview
 @Composable
 fun PreviewTetrisBoard() {
+    val boardState = BoardState()
+    val gameState = GameState()
+
     Surface {
         TetrisBoard(
+            GamePageViewModel(
+                gameState
+            ),
             TetrisBoardViewModel(
-                BoardState(),
-                GameState()
+                boardState,
+                gameState
             )
         )
     }
