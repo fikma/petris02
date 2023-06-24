@@ -2,6 +2,7 @@ package com.contoh.petris02
 
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.TetrominoeState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +19,8 @@ class MyModules {
     @Provides
     @Singleton
     fun provideGameState() : GameState  = GameState()
+
+    @Provides
+    @Singleton
+    fun provideTetrominoeState() : TetrominoeState = TetrominoeState()
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import com.contoh.petris02.views.components.TetrisBoard
@@ -44,7 +45,6 @@ fun GamePage(
                 tetrisBoardViewModel = tetrisBoardViewModel,
                 gamePageViewModel = gamePageViewModel
             )
-            Text(text = "Hello")
         }
     }
 }
@@ -57,8 +57,9 @@ fun GamePage(
 fun PreviewGamePage() {
     val boardState = BoardState()
     val gameState = GameState()
+    val tetrominoeState = TetrominoeState()
 
-    val boardVm = TetrisBoardViewModel(boardState, gameState)
+    val boardVm = TetrisBoardViewModel(boardState, gameState, tetrominoeState)
     val gamePageViewModel = GamePageViewModel(gameState)
 
     Surface {

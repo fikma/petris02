@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.contoh.petris02.BuildConfig
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import kotlinx.coroutines.delay
@@ -50,6 +53,8 @@ fun TetrisBoard(
                     .background(color = block.color ?: MaterialTheme.colorScheme.primaryContainer))
             }
         }
+        if (BuildConfig.DEBUG)
+            Text(text = tetrisBoardViewModel.tetrominoeType.value)
     }
 }
 
@@ -58,6 +63,7 @@ fun TetrisBoard(
 fun PreviewTetrisBoard() {
     val boardState = BoardState()
     val gameState = GameState()
+    val tetrominoeState = TetrominoeState()
 
     Surface {
         TetrisBoard(
@@ -66,7 +72,8 @@ fun PreviewTetrisBoard() {
             ),
             TetrisBoardViewModel(
                 boardState,
-                gameState
+                gameState,
+                tetrominoeState
             )
         )
     }

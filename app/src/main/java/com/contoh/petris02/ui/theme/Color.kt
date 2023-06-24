@@ -31,12 +31,6 @@ val md_theme_light_shadow = Color(0xFF000000)
 val md_theme_light_surfaceTint = Color(0xFF6750A4)
 val md_theme_light_outlineVariant = Color(0xFFCAC4D0)
 val md_theme_light_scrim = Color(0xFF000000)
-val md_theme_light_block_01 = Color(0xFF6750A4)
-val md_theme_light_block_02 = Color(0xFFBA559F)
-val md_theme_light_block_03 = Color(0xFFF36789)
-val md_theme_light_block_04 = Color(0xFFFF8F6F)
-val md_theme_light_block_05 = Color(0xFFFFC35F)
-val md_theme_light_block_06 = Color(0xFFF9F871)
 
 val md_theme_dark_primary = Color(0xFFD0BCFF)
 val md_theme_dark_onPrimary = Color(0xFF381E72)
@@ -69,5 +63,13 @@ val md_theme_dark_surfaceTint = Color(0xFFD0BCFF)
 val md_theme_dark_outlineVariant = Color(0xFF49454F)
 val md_theme_dark_scrim = Color(0xFF000000)
 
+val tetrominoeColors = listOf<Color>(
+    Color(0xFF6750A4),
+    Color(0xFFBA559F),
+    Color(0xFFF36789),
+    Color(0xFFFF8F6F),
+    Color(0xFFFFC35F),
+    Color(0xFFF9F871)
+)
 
 val seed = Color(0xFF6750A4)
