@@ -8,7 +8,8 @@ enum class TetrominoeType {
     L,
     T,
     Z,
-    N
+    N,
+    I
 }
 
 val tetrominoeShapes = listOf(
@@ -19,13 +20,13 @@ val tetrominoeShapes = listOf(
         BlockState(Point(0, 1)),
         BlockState(Point(1, 1)),
     ).toCollection(TetrominoeBlocks(TetrominoeType.O)),
-    // shape L
+    // shape I
     listOf(
         BlockState(Point(0, 0)),
         BlockState(Point(0, 1)),
         BlockState(Point(0, 2)),
         BlockState(Point(0, 3)),
-    ).toCollection(TetrominoeBlocks(TetrominoeType.L)),
+    ).toCollection(TetrominoeBlocks(TetrominoeType.I)),
     // shape T
     listOf(
         BlockState(Point(0, 0)),
@@ -47,6 +48,13 @@ val tetrominoeShapes = listOf(
         BlockState(Point(1, 1)),
         BlockState(Point(1, 2)),
     ).toCollection(TetrominoeBlocks(TetrominoeType.N)),
+    // shape L
+    listOf(
+        BlockState(Point(0, 0)),
+        BlockState(Point(0, 1)),
+        BlockState(Point(0, 2)),
+        BlockState(Point(1, 2)),
+    ).toCollection(TetrominoeBlocks(TetrominoeType.L)),
 )
 
 data class TetrominoeBlocks(
