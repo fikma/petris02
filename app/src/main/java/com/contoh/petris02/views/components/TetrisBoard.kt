@@ -40,9 +40,11 @@ fun TetrisBoard(
 
     Box(modifier = Modifier
         .width(
-            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.xSize).dp)
+            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.xSize).dp
+        )
         .height(
-            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.ySize).dp)
+            (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.ySize).dp
+        )
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(10)

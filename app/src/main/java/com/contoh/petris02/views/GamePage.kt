@@ -14,13 +14,16 @@ import com.contoh.petris02.models.GameState
 import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
+import com.contoh.petris02.viewModels.TetrominoeViewModel
+import com.contoh.petris02.views.components.ControlsButton
 import com.contoh.petris02.views.components.TetrisBoard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamePage(
     tetrisBoardViewModel: TetrisBoardViewModel = viewModel(),
-    gamePageViewModel: GamePageViewModel = viewModel()
+    gamePageViewModel: GamePageViewModel = viewModel(),
+    tetrominoeViewModel: TetrominoeViewModel = viewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -32,6 +35,11 @@ fun GamePage(
                     Text(text = "Petris 02")
                 },
                 colors = TopAppBarDefaults.topAppBarColors()
+            )
+        },
+        bottomBar = {
+            ControlsButton(
+                tetrominoeViewModel = tetrominoeViewModel
             )
         }
     ) { contentPadding ->
@@ -61,11 +69,13 @@ fun PreviewGamePage() {
 
     val boardVm = TetrisBoardViewModel(boardState, gameState, tetrominoeState)
     val gamePageViewModel = GamePageViewModel(gameState)
+    val tetrominoeViewModel = TetrominoeViewModel(_boardState = boardState, tetrominoeState)
 
     Surface {
         GamePage(
             tetrisBoardViewModel = boardVm,
-            gamePageViewModel = gamePageViewModel
+            gamePageViewModel = gamePageViewModel,
+            tetrominoeViewModel = tetrominoeViewModel
         )
     }
 }
