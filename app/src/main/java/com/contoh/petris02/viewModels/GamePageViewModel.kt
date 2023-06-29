@@ -12,8 +12,8 @@ class GamePageViewModel @Inject constructor(
     val gameState = _gameState
 
     fun runUpdate() {
-        _gameState.task.forEach { task ->
-            task()
+        _gameState.task.forEach { wrapper ->
+            wrapper.task()
         }
     }
 }

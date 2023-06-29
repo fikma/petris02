@@ -24,14 +24,16 @@ class TetrisBoardViewModel @Inject constructor(
     var tetrominoeType: MutableState<String> = mutableStateOf(_tetrominoeState.blocks.shape.toString())
 
     init {
-        _gameState.task.add(::changeBoardColor)
+        _gameState.task.add(
+            TaskWrapper(0, ::clearBoardColor)
+        )
     }
 
     fun toggleLoop() {
         _boardState.toggle.value = !_boardState.toggle.value
     }
 
-    fun changeBoardColor() {
+    private fun clearBoardColor() {
         for (index in 0 until _boardState.blocks.size) {
             _boardState.blocks.set(index, BlockState(color = null))
         }
