@@ -3,7 +3,11 @@ package com.contoh.petris02.models
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.contoh.petris02.viewModels.BlockType
+
+enum class BlockType {
+    EMPTY,
+    NORMAL
+}
 
 data class Position(
     var x: Int,
@@ -15,6 +19,12 @@ data class Position(
 
     operator fun times(number: Int) : Position {
         return Position(this.x * number, this.y * number)
+    }
+
+    companion object Factory {
+        fun RIGHT() : Position = Position(1, 0)
+        fun LEFT() : Position = Position(-1, 0)
+        fun DOWN() : Position = Position(0, 1)
     }
 }
 

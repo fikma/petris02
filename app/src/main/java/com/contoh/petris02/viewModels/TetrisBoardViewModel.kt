@@ -4,15 +4,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.contoh.petris02.models.*
+import com.contoh.petris02.services.clearBoardColor
 import com.contoh.petris02.services.resetTetrominoe
-import com.contoh.petris02.services.setTetrominoToBoard
+import com.contoh.petris02.services.setTetrominoeToBoard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
-enum class BlockType {
-    EMPTY,
-    NORMAL
-}
 
 @HiltViewModel
 class TetrisBoardViewModel @Inject constructor(
@@ -25,7 +21,7 @@ class TetrisBoardViewModel @Inject constructor(
 
     init {
         _gameState.task.add(
-            TaskWrapper(0, ::clearBoardColor)
+            TaskWrapper(0, ::reset)
         )
     }
 
@@ -33,13 +29,11 @@ class TetrisBoardViewModel @Inject constructor(
         _boardState.toggle.value = !_boardState.toggle.value
     }
 
-    private fun clearBoardColor() {
-        for (index in 0 until _boardState.blocks.size) {
-            _boardState.blocks.set(index, BlockState(color = null))
-        }
+    private fun reset() {
+        clearBoardColor(_boardState.blocks)
 
         _tetrominoeState.blocks = resetTetrominoe()
-        setTetrominoToBoard(
+        setTetrominoeToBoard(
             _tetrominoeState.blocks,
             _boardState.blocks
         )

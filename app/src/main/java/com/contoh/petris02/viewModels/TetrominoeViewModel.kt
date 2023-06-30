@@ -2,8 +2,13 @@ package com.contoh.petris02.viewModels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.BoardState
+import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
+import com.contoh.petris02.services.clearBoardColor
+import com.contoh.petris02.services.isTetrominoeOutsideBoard
+import com.contoh.petris02.services.setTetrominoeToBoard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,12 +22,23 @@ class TetrominoeViewModel @Inject constructor(
     val rotate = ::_rotate
     val pullDown = ::_pullDown
 
+    private fun xMovement(direction: Position) {
+        clearBoardColor(_boardState.blocks)
+
+        val moveCommand = MoveCommand(direction, _tetrominoeState.blocks)
+        moveCommand.execute()
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks))
+            moveCommand.undo()
+
+        setTetrominoeToBoard(_tetrominoeState.blocks, _boardState.blocks)
+    }
+
     private fun _moveLeft() {
-        Log.i(TetrominoeViewModel::class.simpleName, "Left")
+        xMovement(Position.LEFT())
     }
 
     private fun _moveRight() {
-        Log.i(TetrominoeViewModel::class.simpleName, "Right")
+        xMovement(Position.RIGHT())
     }
 
     private fun _rotate() {

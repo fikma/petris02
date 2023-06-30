@@ -1,10 +1,10 @@
 package com.contoh.petris02.services
 
+import com.contoh.petris02.models.BlockType
 import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeBlocks
 import com.contoh.petris02.models.tetrominoeShapes
 import com.contoh.petris02.ui.theme.tetrominoeColors
-import com.contoh.petris02.viewModels.BlockType
 
 fun resetTetrominoe() : TetrominoeBlocks {
     val result = tetrominoeShapes[(tetrominoeShapes.indices).random()]
