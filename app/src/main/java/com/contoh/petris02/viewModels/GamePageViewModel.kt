@@ -12,6 +12,7 @@ class GamePageViewModel @Inject constructor(
     val gameState = _gameState
 
     fun runUpdate() {
+        _gameState.task.sortBy { it.priority }
         _gameState.task.forEach { wrapper ->
             wrapper.task()
         }
