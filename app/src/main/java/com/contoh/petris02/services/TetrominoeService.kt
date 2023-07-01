@@ -1,9 +1,7 @@
 package com.contoh.petris02.services
 
-import com.contoh.petris02.models.BlockType
-import com.contoh.petris02.models.Position
-import com.contoh.petris02.models.TetrominoeBlocks
-import com.contoh.petris02.models.tetrominoeShapes
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.contoh.petris02.models.*
 import com.contoh.petris02.ui.theme.tetrominoeColors
 
 fun resetTetrominoe() : TetrominoeBlocks {
@@ -23,6 +21,19 @@ fun moveTetrominoe(direction: Position, tetrominoeBlocks: TetrominoeBlocks) {
         val newPosition = tetrominoeBlocks[index].position + direction
         tetrominoeBlocks[index].position = newPosition
     }
+}
+
+fun isCollideWithTetrominoeBlock(
+    tetrominoeBlocks: TetrominoeBlocks,
+    boardBlocks: SnapshotStateList<BlockState>
+) : Boolean {
+    tetrominoeBlocks.forEach {
+        val blockPosition = getBoardPosition(it.position)
+        if (boardBlocks[blockPosition].type != BlockType.EMPTY)
+            return true
+    }
+
+    return false
 }
 
 fun isTetrominoeOutsideBoard(
