@@ -1,13 +1,13 @@
 package com.contoh.petris02.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.contoh.petris02.BuildConfig
+import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.*
-import com.contoh.petris02.services.clearBoardColor
-import com.contoh.petris02.services.resetTetrominoe
-import com.contoh.petris02.services.setTetrominoeToBoard
+import com.contoh.petris02.services.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -30,6 +30,9 @@ class TetrisBoardViewModel @Inject constructor(
         _gameState.task.add(
             TaskWrapper(9999, this::setTetrominoeColor)
         )
+        _gameState.task.add(
+            TaskWrapper(1, this::moveTetrominoeDownOnePosition)
+        )
 
         _tetrominoeState.blocks = resetTetrominoe()
         setTetrominoeToBoard(
@@ -40,6 +43,33 @@ class TetrisBoardViewModel @Inject constructor(
 
     fun toggleLoop() {
         _boardState.toggle.value = !_boardState.toggle.value
+    }
+    
+    private fun moveTetrominoeDownOnePosition() {
+        var undoFlag = false
+        val moveCommand = MoveCommand(Position.DOWN(), _tetrominoeState.blocks)
+        moveCommand.execute()
+
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkYonly = true))
+            undoFlag = true
+
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+            undoFlag = true
+
+        if (undoFlag) {
+            moveCommand.undo()
+            setTetrominoeToBoard(
+                _tetrominoeState.blocks,
+                _boardState.blocks,
+                true
+            )
+
+            val newTetrominoeBlocks = resetTetrominoe()
+            for (index in 0 until _tetrominoeState.blocks.size) {
+                _tetrominoeState.blocks[index] = newTetrominoeBlocks[index].copy()
+            }
+        }
+        Log.d("order", "moveTetrominoeDownOnePosition: ")
     }
 
     private fun resetTetrominoeTypeName() {

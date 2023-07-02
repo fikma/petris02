@@ -13,6 +13,8 @@ fun resetTetrominoe() : TetrominoeBlocks {
         result[index].type = BlockType.NORMAL
     }
 
+    moveTetrominoe(Position(0, -3), result)
+
     return result
 }
 
@@ -27,8 +29,12 @@ fun isCollideWithTetrominoeBlock(
     tetrominoeBlocks: TetrominoeBlocks,
     boardBlocks: SnapshotStateList<BlockState>
 ) : Boolean {
-    tetrominoeBlocks.forEach {
-        val blockPosition = getBoardPosition(it.position)
+    for (index in 0 until tetrominoeBlocks.size) {
+        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= 20)
+            continue
+        if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= 10)
+            continue
+        val blockPosition = getBoardPosition(tetrominoeBlocks[index].position)
         if (boardBlocks[blockPosition].type != BlockType.EMPTY)
             return true
     }
@@ -38,12 +44,18 @@ fun isCollideWithTetrominoeBlock(
 
 fun isTetrominoeOutsideBoard(
     tetrominoeBlocks: TetrominoeBlocks,
+    checkXonly: Boolean = false,
+    checkYonly: Boolean = false,
     size: Position = Position(10, 20)
 ) : Boolean {
-    tetrominoeBlocks.forEach {
-        if (it.position.x < 0) return true
-        if (it.position.x >= size.x) return true
-        if (it.position.y >= 20) return true
+    for (index in 0 until tetrominoeBlocks.size) {
+        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y < 0) continue
+        if (checkXonly) {
+            if (tetrominoeBlocks[index].position.x < 0) return true
+            if (tetrominoeBlocks[index].position.x >= size.x) return true
+        }
+        if (checkYonly)
+            if (tetrominoeBlocks[index].position.y >= 20) return true
     }
 
     return false

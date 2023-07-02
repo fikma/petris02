@@ -6,9 +6,7 @@ import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
-import com.contoh.petris02.services.clearBoardColor
-import com.contoh.petris02.services.isTetrominoeOutsideBoard
-import com.contoh.petris02.services.setTetrominoeToBoard
+import com.contoh.petris02.services.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,14 +21,25 @@ class TetrominoeViewModel @Inject constructor(
     val pullDown = ::_pullDown
 
     private fun xMovement(direction: Position) {
-        clearBoardColor(_boardState.blocks)
-
+        var undoFlag = false
         val moveCommand = MoveCommand(direction, _tetrominoeState.blocks)
+
+        clearBoardColor(_boardState.blocks)
         moveCommand.execute()
-        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks))
+
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+            undoFlag = true
+
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true))
+            undoFlag = true
+
+        if (undoFlag)
             moveCommand.undo()
 
-        setTetrominoeToBoard(_tetrominoeState.blocks, _boardState.blocks)
+        setTetrominoeToBoard(
+            _tetrominoeState.blocks,
+            _boardState.blocks
+        )
     }
 
     private fun _moveLeft() {

@@ -64,5 +64,5 @@ data class TetrominoeBlocks(
 
 data class TetrominoeState(
     var direction: Point = Point(0, 0),
-    var blocks: TetrominoeBlocks = tetrominoeShapes[(tetrominoeShapes.indices).random()]
+    var blocks: TetrominoeBlocks = tetrominoeShapes[(tetrominoeShapes.indices).random()],
 )
