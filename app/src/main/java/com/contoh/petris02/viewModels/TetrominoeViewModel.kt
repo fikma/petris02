@@ -1,8 +1,8 @@
 package com.contoh.petris02.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.contoh.petris02.commands.MoveCommand
+import com.contoh.petris02.commands.RotateCommand
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
@@ -51,7 +51,25 @@ class TetrominoeViewModel @Inject constructor(
     }
 
     private fun _rotate() {
-        Log.i(TetrominoeViewModel::class.simpleName, "rotate")
+        var undoFlag = false
+        val rotateCommand = RotateCommand(_tetrominoeState.blocks, true)
+        clearBoardColor(_boardState.blocks)
+
+        rotateCommand.execute()
+
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+            undoFlag = true
+
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true))
+            undoFlag = true
+
+        if (undoFlag)
+            rotateCommand.undo()
+
+        setTetrominoeToBoard(
+            _tetrominoeState.blocks,
+            _boardState.blocks
+        )
     }
 
     private fun _pullDown() {

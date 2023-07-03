@@ -21,6 +21,27 @@ fun resetTetrominoe() : TetrominoeBlocks {
     return result
 }
 
+// credit: https://youtube.com/watch?v=zH_omFPqMO4
+fun rotateTetrominoe(tetrominoeBlocks: TetrominoeBlocks, clockWise: Boolean = true) {
+    if (tetrominoeBlocks.shape == TetrominoeType.O) return
+
+    val pivot = tetrominoeBlocks[1]
+
+    for (index in 0 until tetrominoeBlocks.size) {
+        val x = tetrominoeBlocks[index].position.y - pivot.position.y
+        val y = tetrominoeBlocks[index].position.x - pivot.position.x
+
+        if (clockWise) {
+            tetrominoeBlocks[index].position.x = pivot.position.x - x
+            tetrominoeBlocks[index].position.y = pivot.position.y + y
+        } else {
+            tetrominoeBlocks[index].position.x = pivot.position.x + x
+            tetrominoeBlocks[index].position.y = pivot.position.y - y
+        }
+    }
+
+}
+
 fun moveTetrominoeDown(
     tetrominoeBlocks: TetrominoeBlocks,
     boardBlocks: SnapshotStateList<BlockState>
