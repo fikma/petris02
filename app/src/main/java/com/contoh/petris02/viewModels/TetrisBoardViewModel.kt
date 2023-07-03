@@ -68,6 +68,8 @@ class TetrisBoardViewModel @Inject constructor(
                 _tetrominoeState.blocks[index] = newTetrominoeBlocks[index].copy()
             }
         }
+
+        clearLine(boardState)
     }
 
     private fun resetTetrominoeTypeName() {
