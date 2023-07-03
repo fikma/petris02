@@ -55,6 +55,9 @@ class TetrominoeViewModel @Inject constructor(
     }
 
     private fun _pullDown() {
-        Log.i(TetrominoeViewModel::class.simpleName, "pulldown")
+        moveTetrominoeDown(
+            _tetrominoeState.blocks,
+            _boardState.blocks
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.contoh.petris02.services
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.*
 import com.contoh.petris02.ui.theme.tetrominoeColors
 
@@ -18,6 +19,31 @@ fun resetTetrominoe() : TetrominoeBlocks {
     moveTetrominoe(Position(0, -3), result)
 
     return result
+}
+
+fun moveTetrominoeDown(
+    tetrominoeBlocks: TetrominoeBlocks,
+    boardBlocks: SnapshotStateList<BlockState>
+) {
+    val moveCommand = MoveCommand(Position.DOWN(), tetrominoeBlocks)
+    var undoFlag = false
+    while (true) {
+        moveCommand.execute()
+        if (isTetrominoeOutsideBoard(tetrominoeBlocks, checkYonly = true))
+            undoFlag = true
+        if (isCollideWithTetrominoeBlock(tetrominoeBlocks, boardBlocks))
+            undoFlag = true
+
+        if (undoFlag) {
+            moveCommand.undo()
+            setTetrominoeToBoard(
+                tetrominoeBlocks,
+                boardBlocks,
+                true
+            )
+            return
+        }
+    }
 }
 
 fun moveTetrominoe(direction: Position, tetrominoeBlocks: TetrominoeBlocks) {
