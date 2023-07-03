@@ -5,6 +5,16 @@ import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.*
 import com.contoh.petris02.ui.theme.tetrominoeColors
 
+fun isGameOver(tetrominoeBlocks: TetrominoeBlocks) : Boolean {
+    tetrominoeBlocks.forEach {
+        if (it.position.y < 0) {
+            return true
+        }
+    }
+
+    return false
+}
+
 fun resetTetrominoe() : TetrominoeBlocks {
     val tetrominoeShapeBuilder = TetrominoeBlocksBuilder()
     val randomIndex = (tetrominoeShapeBlocks.indices).random()
