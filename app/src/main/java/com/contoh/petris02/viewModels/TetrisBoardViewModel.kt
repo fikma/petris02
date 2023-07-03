@@ -56,6 +56,8 @@ class TetrisBoardViewModel @Inject constructor(
             undoFlag = true
 
         if (undoFlag) {
+            if (isGameOver(_tetrominoeState.blocks))
+                _gameState.isPaused.value = true
             moveCommand.undo()
             setTetrominoeToBoard(
                 _tetrominoeState.blocks,

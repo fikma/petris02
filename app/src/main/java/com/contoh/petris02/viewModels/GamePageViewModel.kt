@@ -10,11 +10,16 @@ class GamePageViewModel @Inject constructor(
     private val _gameState : GameState
 ) : ViewModel() {
     val gameState = _gameState
+    val togglePausedStateRef = ::togglePausedState
 
     fun runUpdate() {
         _gameState.task.sortBy { it.priority }
         _gameState.task.forEach { wrapper ->
             wrapper.task()
         }
+    }
+
+    private fun togglePausedState() {
+        _gameState.isPaused.value = !_gameState.isPaused.value
     }
 }

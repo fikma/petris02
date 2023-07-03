@@ -1,5 +1,6 @@
 package com.contoh.petris02.views.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -32,8 +33,10 @@ fun TetrisBoard(
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(tetrisBoardViewModel.boardState.toggle.value) {
         coroutineScope.launch {
-            delay(gamePageViewModel.gameState.speed)
-            gamePageViewModel.runUpdate()
+            if (!gamePageViewModel.gameState.isPaused.value) {
+                delay(gamePageViewModel.gameState.speed)
+                gamePageViewModel.runUpdate()
+            }
             tetrisBoardViewModel.toggleLoop()
         }
     }
