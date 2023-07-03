@@ -1,7 +1,7 @@
 package com.contoh.petris02.models
 
 import android.graphics.Point
-import com.contoh.petris02.ui.theme.tetrominoeColors
+import com.contoh.petris02.services.resetTetrominoe
 
 enum class TetrominoeType {
     O,
@@ -12,7 +12,8 @@ enum class TetrominoeType {
     I
 }
 
-val tetrominoeShapes = listOf(
+
+val tetrominoeShapeBlocks = listOf(
     // shape o
     listOf(
         BlockState(Position(0, 0)),
@@ -57,6 +58,19 @@ val tetrominoeShapes = listOf(
     ).toCollection(TetrominoeBlocks(TetrominoeType.L)),
 )
 
+class TetrominoeBlocksBuilder {
+     fun build(index: Int) : TetrominoeBlocks {
+        val newMutableList = mutableListOf<BlockState>()
+        tetrominoeShapeBlocks[index].forEach {
+            newMutableList.add(it.copy())
+        }
+        return TetrominoeBlocks(
+            tetrominoeShapeBlocks[index].shape,
+            newMutableList
+        )
+    }
+}
+
 data class TetrominoeBlocks(
     val shape: TetrominoeType,
     val element: MutableList<BlockState> = mutableListOf()
@@ -64,5 +78,5 @@ data class TetrominoeBlocks(
 
 data class TetrominoeState(
     var direction: Point = Point(0, 0),
-    var blocks: TetrominoeBlocks = tetrominoeShapes[(tetrominoeShapes.indices).random()],
+    var blocks: TetrominoeBlocks = resetTetrominoe(),
 )

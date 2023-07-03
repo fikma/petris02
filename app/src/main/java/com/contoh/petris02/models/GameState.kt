@@ -6,6 +6,6 @@ data class TaskWrapper(
 )
 
 data class GameState(
-    var speed: Long = 1000, // milliseconds
+    var speed: Long = 100, // milliseconds
     val task: MutableList<TaskWrapper> = mutableListOf()
 )

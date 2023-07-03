@@ -1,6 +1,5 @@
 package com.contoh.petris02.viewModels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -69,7 +68,6 @@ class TetrisBoardViewModel @Inject constructor(
                 _tetrominoeState.blocks[index] = newTetrominoeBlocks[index].copy()
             }
         }
-        Log.d("order", "moveTetrominoeDownOnePosition: ")
     }
 
     private fun resetTetrominoeTypeName() {

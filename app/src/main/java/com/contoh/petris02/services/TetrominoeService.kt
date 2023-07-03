@@ -5,7 +5,9 @@ import com.contoh.petris02.models.*
 import com.contoh.petris02.ui.theme.tetrominoeColors
 
 fun resetTetrominoe() : TetrominoeBlocks {
-    val result = tetrominoeShapes[(tetrominoeShapes.indices).random()]
+    val tetrominoeShapeBuilder = TetrominoeBlocksBuilder()
+    val randomIndex = (tetrominoeShapeBlocks.indices).random()
+    val result = tetrominoeShapeBuilder.build(randomIndex)
     val randomColor = tetrominoeColors[(tetrominoeColors.indices).random()]
 
     for (index in 0 until result.size) {
@@ -49,7 +51,7 @@ fun isTetrominoeOutsideBoard(
     size: Position = Position(10, 20)
 ) : Boolean {
     for (index in 0 until tetrominoeBlocks.size) {
-        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y < 0) continue
+        if (tetrominoeBlocks[index].position.y < 0) continue
         if (checkXonly) {
             if (tetrominoeBlocks[index].position.x < 0) return true
             if (tetrominoeBlocks[index].position.x >= size.x) return true
