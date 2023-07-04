@@ -4,6 +4,17 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.models.*
 import com.contoh.petris02.ui.theme.tetrominoeColors
+import java.util.*
+
+fun setNextTetrominoeFromQueue(blocksQueue: Queue<TetrominoeBlocks>, activeTetrominoe: TetrominoeBlocks) {
+    val nextBlocks = blocksQueue.remove()
+    if (nextBlocks.isNotEmpty()) {
+        for (index in 0 until activeTetrominoe.size) {
+            activeTetrominoe[index] = nextBlocks[index].copy()
+        }
+    }
+    blocksQueue.add(resetTetrominoe())
+}
 
 fun isGameOver(tetrominoeBlocks: TetrominoeBlocks) : Boolean {
     tetrominoeBlocks.forEach {

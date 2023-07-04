@@ -64,11 +64,7 @@ class TetrisBoardViewModel @Inject constructor(
                 _boardState.blocks,
                 true
             )
-
-            val newTetrominoeBlocks = resetTetrominoe()
-            for (index in 0 until _tetrominoeState.blocks.size) {
-                _tetrominoeState.blocks[index] = newTetrominoeBlocks[index].copy()
-            }
+            setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
         }
 
         clearLine(boardState)

@@ -2,6 +2,8 @@ package com.contoh.petris02.models
 
 import android.graphics.Point
 import com.contoh.petris02.services.resetTetrominoe
+import java.util.LinkedList
+import java.util.Queue
 
 enum class TetrominoeType {
     O,
@@ -79,4 +81,7 @@ data class TetrominoeBlocks(
 data class TetrominoeState(
     var direction: Point = Point(0, 0),
     var blocks: TetrominoeBlocks = resetTetrominoe(),
+    val blocksQueue: Queue<TetrominoeBlocks> = LinkedList(
+        listOf(resetTetrominoe(), resetTetrominoe())
+    )
 )
