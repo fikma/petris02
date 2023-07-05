@@ -38,6 +38,17 @@ class TetrisBoardViewModel @Inject constructor(
             _tetrominoeState.blocks,
             _boardState.blocks
         )
+
+        val nextTetrominoe = _tetrominoeState.blocksQueue.peek()
+        if (nextTetrominoe != null) {
+            clearBoardColor(_tetrominoeState.nextTetrominoeBoard)
+            setTetrominoeToBoard(
+                nextTetrominoe,
+                _tetrominoeState.nextTetrominoeBoard,
+                true,
+                4
+            )
+        }
     }
 
     fun toggleLoop() {
@@ -65,6 +76,17 @@ class TetrisBoardViewModel @Inject constructor(
                 true
             )
             setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
+            moveTetrominoe(Position(0, -3), _tetrominoeState.blocks)
+
+            val nextTetrominoe = _tetrominoeState.blocksQueue.peek()
+            if (nextTetrominoe != null) {
+                clearBoardColor(_tetrominoeState.nextTetrominoeBoard)
+                setTetrominoeToBoard(
+                    nextTetrominoe,
+                    _tetrominoeState.nextTetrominoeBoard,
+                    boardXsize = 4
+                )
+            }
         }
 
         clearLine(boardState)

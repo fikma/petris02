@@ -1,6 +1,8 @@
 package com.contoh.petris02.models
 
 import android.graphics.Point
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.contoh.petris02.services.resetTetrominoe
 import java.util.LinkedList
 import java.util.Queue
@@ -75,7 +77,8 @@ class TetrominoeBlocksBuilder {
 
 data class TetrominoeBlocks(
     val shape: TetrominoeType,
-    val element: MutableList<BlockState> = mutableListOf()
+    val element: MutableList<BlockState> = mutableListOf(),
+    val dimension: Position = Position(0, 0)
 ) : ArrayList<BlockState>(element)
 
 data class TetrominoeState(
@@ -83,5 +86,12 @@ data class TetrominoeState(
     var blocks: TetrominoeBlocks = resetTetrominoe(),
     val blocksQueue: Queue<TetrominoeBlocks> = LinkedList(
         listOf(resetTetrominoe(), resetTetrominoe())
-    )
-)
+    ),
+    val nextTetrominoeBoard: SnapshotStateList<BlockState> = mutableStateListOf()
+) {
+    init {
+        for (value in 0 until (4*4)) {
+            nextTetrominoeBoard.add(BlockState())
+        }
+    }
+}

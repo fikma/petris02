@@ -3,9 +3,7 @@ package com.contoh.petris02.viewModels
 import androidx.lifecycle.ViewModel
 import com.contoh.petris02.commands.MoveCommand
 import com.contoh.petris02.commands.RotateCommand
-import com.contoh.petris02.models.BoardState
-import com.contoh.petris02.models.Position
-import com.contoh.petris02.models.TetrominoeState
+import com.contoh.petris02.models.*
 import com.contoh.petris02.services.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -13,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TetrominoeViewModel @Inject constructor(
     private val _boardState: BoardState,
-    private val _tetrominoeState: TetrominoeState,
+    val _tetrominoeState: TetrominoeState,
 ) : ViewModel() {
     val moveLeft = ::_moveLeft
     val moveRight = ::_moveRight
@@ -74,7 +72,7 @@ class TetrominoeViewModel @Inject constructor(
 
     private fun _pullDown() {
         moveTetrominoeDown(
-            _tetrominoeState.blocks,
+            _tetrominoeState,
             _boardState.blocks
         )
     }

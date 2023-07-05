@@ -45,7 +45,8 @@ fun moveLinesDown(startAt: Position, boardBlocks: SnapshotStateList<BlockState>)
 fun setTetrominoeToBoard(
     tetrominoeBlocks: TetrominoeBlocks,
     boardBlocks: SnapshotStateList<BlockState>,
-    setTypeToBoard: Boolean = false
+    setTypeToBoard: Boolean = false,
+    boardXsize: Int = 10
 ) {
     for (index in 0 until tetrominoeBlocks.size) {
         if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= 20)
@@ -53,7 +54,7 @@ fun setTetrominoeToBoard(
         if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= 10)
             continue
         boardBlocks.set(
-            getBoardPosition(tetrominoeBlocks[index].position),
+            getBoardPosition(tetrominoeBlocks[index].position, boardXsize),
             if (setTypeToBoard)
                 tetrominoeBlocks[index].copy(type = tetrominoeBlocks[index].type)
             else

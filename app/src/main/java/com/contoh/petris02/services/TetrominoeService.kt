@@ -31,13 +31,17 @@ fun resetTetrominoe() : TetrominoeBlocks {
     val randomIndex = (tetrominoeShapeBlocks.indices).random()
     val result = tetrominoeShapeBuilder.build(randomIndex)
     val randomColor = tetrominoeColors[(tetrominoeColors.indices).random()]
+    val dimension = Position(0, 0)
 
     for (index in 0 until result.size) {
         result[index].color = randomColor
         result[index].type = BlockType.NORMAL
+        dimension.x = if (dimension.x >= result[index].position.x) dimension.x else result[index].position.x
+        dimension.y = if (dimension.y >= result[index].position.y) dimension.y else result[index].position.y
     }
 
-    moveTetrominoe(Position(0, -3), result)
+    result.dimension.x = dimension.x
+    result.dimension.y = dimension.y
 
     return result
 }
@@ -64,25 +68,35 @@ fun rotateTetrominoe(tetrominoeBlocks: TetrominoeBlocks, clockWise: Boolean = tr
 }
 
 fun moveTetrominoeDown(
-    tetrominoeBlocks: TetrominoeBlocks,
+    tetrominoeState: TetrominoeState,
     boardBlocks: SnapshotStateList<BlockState>
 ) {
-    val moveCommand = MoveCommand(Position.DOWN(), tetrominoeBlocks)
+    val moveCommand = MoveCommand(Position.DOWN(), tetrominoeState.blocks)
     var undoFlag = false
     while (true) {
         moveCommand.execute()
-        if (isTetrominoeOutsideBoard(tetrominoeBlocks, checkYonly = true))
+        if (isTetrominoeOutsideBoard(tetrominoeState.blocks, checkYonly = true))
             undoFlag = true
-        if (isCollideWithTetrominoeBlock(tetrominoeBlocks, boardBlocks))
+        if (isCollideWithTetrominoeBlock(tetrominoeState.blocks, boardBlocks))
             undoFlag = true
 
         if (undoFlag) {
             moveCommand.undo()
             setTetrominoeToBoard(
-                tetrominoeBlocks,
+                tetrominoeState.blocks,
                 boardBlocks,
                 true
             )
+
+            val nextTetrominoe = tetrominoeState.blocksQueue.peek()
+            if (nextTetrominoe != null) {
+                clearBoardColor(tetrominoeState.nextTetrominoeBoard)
+                setTetrominoeToBoard(
+                    nextTetrominoe,
+                    tetrominoeState.nextTetrominoeBoard,
+                    boardXsize = 4
+                )
+            }
             return
         }
     }

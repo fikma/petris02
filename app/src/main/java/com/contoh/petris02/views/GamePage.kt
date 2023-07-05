@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
@@ -18,6 +19,7 @@ import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import com.contoh.petris02.viewModels.TetrominoeViewModel
 import com.contoh.petris02.views.components.ControlsButton
+import com.contoh.petris02.views.components.NextTetrominoe
 import com.contoh.petris02.views.components.TetrisBoard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +38,17 @@ fun GamePage(
                 title = {
                     Text(text = "Petris 02")
                 },
-                colors = TopAppBarDefaults.topAppBarColors()
+                colors = TopAppBarDefaults.topAppBarColors(),
+                actions = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = "Next")
+                        Box(modifier = Modifier.size(40.dp, 40.dp)) {
+                            NextTetrominoe(tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard)
+                        }
+                    }
+                }
             )
         },
         bottomBar = {
