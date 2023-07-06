@@ -3,6 +3,12 @@ package com.contoh.petris02.services
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.contoh.petris02.models.*
 
+fun resetBoard(boardBlocks: SnapshotStateList<BlockState>) {
+    for (index in 0 until boardBlocks.size) {
+        boardBlocks.set(index, BlockState())
+    }
+}
+
 fun clearBoardColor(boardBlocks: SnapshotStateList<BlockState>) {
     for (index in 0 until boardBlocks.size) {
         if (boardBlocks[index].type == BlockType.EMPTY)
