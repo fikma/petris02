@@ -4,8 +4,10 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -21,6 +23,7 @@ import com.contoh.petris02.viewModels.TetrominoeViewModel
 import com.contoh.petris02.views.components.ControlsButton
 import com.contoh.petris02.views.components.NextTetrominoe
 import com.contoh.petris02.views.components.TetrisBoard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,55 +33,87 @@ fun GamePage(
     tetrominoeViewModel: TetrominoeViewModel = viewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    gamePageViewModel.drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
+    gamePageViewModel.modalSheetScope = rememberCoroutineScope()
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Petris 02")
-                },
-                colors = TopAppBarDefaults.topAppBarColors(),
-                actions = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Next")
-                        Box(modifier = Modifier.size(40.dp, 40.dp)) {
-                            NextTetrominoe(tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard)
+    ModalNavigationDrawer(
+        drawerState = gamePageViewModel.drawerState,
+        drawerContent = {
+            ModalDrawerSheet() {
+                Column(
+                    modifier = Modifier.fillMaxHeight(),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    NavigationDrawerItem(
+                        icon = { Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "")},
+                        label = { Text(text = "Resume game")},
+                        selected = false,
+                        onClick = gamePageViewModel.gameState.closeDrawer,
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+
+                    NavigationDrawerItem(
+                        icon = { Icon(imageVector = Icons.Default.Refresh, contentDescription = "")},
+                        label = { Text(text = "New Game")},
+                        selected = false,
+                        onClick = gamePageViewModel.gameState.closeDrawer,
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+            }
+        },
+        content = {
+            Scaffold(
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(text = "Petris 02")
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(),
+                        actions = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(text = "Next")
+                                Box(modifier = Modifier.size(40.dp, 40.dp)) {
+                                    NextTetrominoe(tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard)
+                                }
+                            }
                         }
+                    )
+                },
+                bottomBar = {
+                    ControlsButton(
+                        tetrominoeViewModel = tetrominoeViewModel
+                    )
+                },
+                floatingActionButton = {
+                    IconButton(onClick = gamePageViewModel.gameState.openDrawer) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "Play"
+                        )
                     }
                 }
-            )
-        },
-        bottomBar = {
-            ControlsButton(
-                tetrominoeViewModel = tetrominoeViewModel
-            )
-        },
-        floatingActionButton = {
-            IconButton(onClick = gamePageViewModel.togglePausedStateRef) {
-                Icon(
-                    imageVector = Icons.Default.PlayArrow,
-                    contentDescription = "Play"
-                )
+            ) { contentPadding ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(contentPadding)
+                        .fillMaxHeight()
+                ) {
+                    TetrisBoard(
+                        tetrisBoardViewModel = tetrisBoardViewModel,
+                        gamePageViewModel = gamePageViewModel
+                    )
+                }
             }
         }
-    ) { contentPadding ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(contentPadding)
-                .fillMaxHeight()
-        ) {
-            TetrisBoard(
-                tetrisBoardViewModel = tetrisBoardViewModel,
-                gamePageViewModel = gamePageViewModel
-            )
-        }
-    }
+    )
 }
 
 @Preview(
