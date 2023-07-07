@@ -67,9 +67,11 @@ fun GamePage(
     ) { contentPadding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(contentPadding)
+                .fillMaxHeight()
         ) {
             TetrisBoard(
                 tetrisBoardViewModel = tetrisBoardViewModel,

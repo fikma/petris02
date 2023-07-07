@@ -1,7 +1,9 @@
 package com.contoh.petris02.views.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -27,7 +29,6 @@ data class Wrapper(
 fun ControlsButton(
     tetrominoeViewModel: TetrominoeViewModel = viewModel()
 ) {
-    val navItemDefault = NavigationBarItemDefaults
     val buttonNames = listOf(
         Wrapper(
             Icons.Filled.KeyboardArrowLeft,
@@ -46,22 +47,23 @@ fun ControlsButton(
             tetrominoeViewModel.pullDown
         )
     )
-    NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        buttonNames.forEach { item ->
-            NavigationBarItem(
-                selected = false,
-                onClick = item.callback,
-                icon = {
-                       Icon(
-                           imageVector = item.icon,
-                           contentDescription = "t",
-                           modifier = Modifier.size(48.dp)
-                       )
-                },
-                colors = navItemDefault.colors(),
-            )
-        }
-    }
+    BottomAppBar(
+        actions = {
+            Scaffold {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    buttonNames.forEach {
+                        IconButton(onClick = it.callback) {
+                            Icon(imageVector = it.icon, contentDescription = "Hello")
+                        }
+                    }
+                }
+            }
+        },
+        modifier = Modifier.height(55.dp)
+    )
 }
 
 @Preview(
