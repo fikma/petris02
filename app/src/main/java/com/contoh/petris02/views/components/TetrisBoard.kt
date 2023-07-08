@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -12,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -51,10 +54,15 @@ fun TetrisBoard(
         LazyVerticalGrid(
             columns = GridCells.Fixed(10)
         ) {
-            items(tetrisBoardViewModel.boardState.blocks) { block ->
-                Box(modifier = Modifier
-                    .size(block.size)
-                    .background(color = block.color ?: MaterialTheme.colorScheme.primaryContainer))
+            items(
+                tetrisBoardViewModel.boardState.blocks
+            ) { block ->
+                Box (modifier = Modifier.size(block.size)) {
+                    Box(modifier = Modifier
+                        .size(block.size.minus(2.dp))
+                        .clip(CutCornerShape(5.dp))
+                        .background(color = block.color ?: MaterialTheme.colorScheme.primaryContainer))
+                }
             }
         }
         if (BuildConfig.DEBUG)
