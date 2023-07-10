@@ -15,4 +15,5 @@ data class GameState(
 ) {
     lateinit var closeDrawer : () -> Unit
     lateinit var openDrawer : () -> Unit
+    lateinit var onNewGameButton: () -> Unit
 }

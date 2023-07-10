@@ -56,7 +56,7 @@ fun GamePage(
                         icon = { Icon(imageVector = Icons.Default.Refresh, contentDescription = "")},
                         label = { Text(text = "New Game")},
                         selected = false,
-                        onClick = gamePageViewModel.gameState.closeDrawer,
+                        onClick = gamePageViewModel.gameState.onNewGameButton,
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
                     Spacer(modifier = Modifier.height(24.dp))
@@ -127,7 +127,7 @@ fun PreviewGamePage() {
     val tetrominoeState = TetrominoeState()
 
     val boardVm = TetrisBoardViewModel(boardState, gameState, tetrominoeState)
-    val gamePageViewModel = GamePageViewModel(gameState)
+    val gamePageViewModel = GamePageViewModel(gameState, boardState, tetrominoeState)
     val tetrominoeViewModel = TetrominoeViewModel(_boardState = boardState, tetrominoeState)
 
     Surface {

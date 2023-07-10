@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -80,7 +79,7 @@ fun PreviewTetrisBoard() {
     Surface {
         TetrisBoard(
             GamePageViewModel(
-                gameState
+                gameState, boardState, tetrominoeState
             ),
             TetrisBoardViewModel(
                 boardState,
