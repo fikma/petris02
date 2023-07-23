@@ -17,13 +17,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
 import com.contoh.petris02.models.TetrominoeState
+import com.contoh.petris02.ui.theme.Petris02Theme
 import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import com.contoh.petris02.viewModels.TetrominoeViewModel
 import com.contoh.petris02.views.components.ControlsButton
 import com.contoh.petris02.views.components.NextTetrominoe
 import com.contoh.petris02.views.components.TetrisBoard
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +33,6 @@ fun GamePage(
     tetrominoeViewModel: TetrominoeViewModel = viewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    gamePageViewModel.drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
     gamePageViewModel.modalSheetScope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
@@ -130,11 +129,13 @@ fun PreviewGamePage() {
     val gamePageViewModel = GamePageViewModel(gameState, boardState, tetrominoeState)
     val tetrominoeViewModel = TetrominoeViewModel(_boardState = boardState, tetrominoeState)
 
-    Surface {
-        GamePage(
-            tetrisBoardViewModel = boardVm,
-            gamePageViewModel = gamePageViewModel,
-            tetrominoeViewModel = tetrominoeViewModel
-        )
+    Petris02Theme {
+        Surface {
+            GamePage(
+                tetrisBoardViewModel = boardVm,
+                gamePageViewModel = gamePageViewModel,
+                tetrominoeViewModel = tetrominoeViewModel
+            )
+        }
     }
 }

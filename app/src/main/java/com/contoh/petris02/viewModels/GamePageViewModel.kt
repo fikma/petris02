@@ -1,6 +1,8 @@
 package com.contoh.petris02.viewModels
 
+import android.util.Log
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.lifecycle.ViewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
@@ -19,7 +21,20 @@ class GamePageViewModel @Inject constructor(
     private val _tetrominoeState: TetrominoeState
 ) : ViewModel() {
     lateinit var modalSheetScope: CoroutineScope
-    lateinit var drawerState: DrawerState
+    var drawerState = DrawerState(initialValue = DrawerValue.Closed, confirmStateChange = {
+        if (it == DrawerValue.Open) {
+            _gameState.isPaused.value = true
+            Log.i(GamePageViewModel::class.simpleName, "isPaused: ${_gameState.isPaused.value}")
+            true
+        }
+        else if (it == DrawerValue.Closed) {
+            _gameState.isPaused.value = false
+            Log.i(GamePageViewModel::class.simpleName, "isPaused: ${_gameState.isPaused.value}")
+            true
+        } else {
+            false
+        }
+    })
 
     val gameState = _gameState
 
@@ -47,6 +62,7 @@ class GamePageViewModel @Inject constructor(
         resetBoard(_boardState.blocks)
         _tetrominoeState.blocks = resetTetrominoe()
         closeModalSheet()
+        togglePausedState(false)
     }
 
     fun runUpdate() {
