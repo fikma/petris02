@@ -1,7 +1,11 @@
 package com.contoh.petris02.views
 
+import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
@@ -10,9 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
@@ -34,6 +42,14 @@ fun GamePage(
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     gamePageViewModel.modalSheetScope = rememberCoroutineScope()
+
+    //Todo: move this logic to somewhere not compose
+    val view = LocalView.current
+    val window = (view.context as Activity).window
+    window.navigationBarColor = MaterialTheme.colorScheme.surface.toArgb()
+    window.statusBarColor = MaterialTheme.colorScheme.surface.toArgb()
+    WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isSystemInDarkTheme()
+    WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !isSystemInDarkTheme()
 
     ModalNavigationDrawer(
         drawerState = gamePageViewModel.drawerState,
@@ -92,7 +108,10 @@ fun GamePage(
                 },
                 bottomBar = {
                     ControlsButton(
-                        tetrominoeViewModel = tetrominoeViewModel
+                        tetrominoeViewModel = tetrominoeViewModel,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        Modifier.height(70.dp)
                     )
                 },
                 floatingActionButton = {
