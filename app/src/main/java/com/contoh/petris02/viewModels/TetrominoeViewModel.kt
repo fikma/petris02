@@ -49,6 +49,7 @@ class TetrominoeViewModel @Inject constructor(
     }
 
     private fun _rotate() {
+        if (_tetrominoeState.blocks.shape == TetrominoeType.O) return
         var undoFlag = false
         val rotateCommand = RotateCommand(_tetrominoeState.blocks, true)
         clearBoardColor(_boardState.blocks)
@@ -71,6 +72,7 @@ class TetrominoeViewModel @Inject constructor(
     }
 
     private fun _pullDown() {
+        clearBoardColor(_boardState.blocks)
         moveTetrominoeDown(
             _tetrominoeState,
             _boardState.blocks

@@ -69,7 +69,7 @@ val tetrominoeColors = listOf<Color>(
     Color(0xFFF36789),
     Color(0xFFFF8F6F),
     Color(0xFFFFC35F),
-    Color(0xFFF9F871)
+    Color(0xFF1E6CB3)
 )
 
 val seed = Color(0xFF6750A4)

@@ -22,7 +22,7 @@ import com.contoh.petris02.viewModels.GamePageViewModel
 import com.contoh.petris02.viewModels.TetrisBoardViewModel
 import com.contoh.petris02.viewModels.TetrominoeViewModel
 import com.contoh.petris02.views.components.ControlsButton
-import com.contoh.petris02.views.components.NextTetrominoe
+import com.contoh.petris02.views.components.BoardGrid
 import com.contoh.petris02.views.components.TetrisBoard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,9 +76,16 @@ fun GamePage(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(text = "Next")
+                                Spacer(modifier = Modifier.width(10.dp))
                                 Box(modifier = Modifier.size(40.dp, 40.dp)) {
-                                    NextTetrominoe(tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard)
+                                    BoardGrid(
+                                        boardList = tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard,
+                                        smallBlockSize = true,
+                                        xBlockCount = 4,
+                                        modifier = Modifier
+                                    )
                                 }
+                                Spacer(modifier = Modifier.width(10.dp))
                             }
                         }
                     )
