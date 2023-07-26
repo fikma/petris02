@@ -2,10 +2,8 @@ package com.contoh.petris02.views
 
 import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
@@ -14,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalView
@@ -50,7 +47,6 @@ fun GamePage(
     window.statusBarColor = MaterialTheme.colorScheme.surface.toArgb()
     WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isSystemInDarkTheme()
     WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !isSystemInDarkTheme()
-
     ModalNavigationDrawer(
         drawerState = gamePageViewModel.drawerState,
         drawerContent = {
@@ -61,9 +57,9 @@ fun GamePage(
                 ) {
                     NavigationDrawerItem(
                         icon = { Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "")},
-                        label = { Text(text = "Resume game")},
+                        label = { Text(text = gamePageViewModel.gameState.stateText.value)},
                         selected = false,
-                        onClick = gamePageViewModel.gameState.closeDrawer,
+                        onClick = gamePageViewModel.onResumeGameButton,
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
 
@@ -71,7 +67,7 @@ fun GamePage(
                         icon = { Icon(imageVector = Icons.Default.Refresh, contentDescription = "")},
                         label = { Text(text = "New Game")},
                         selected = false,
-                        onClick = gamePageViewModel.gameState.onNewGameButton,
+                        onClick = gamePageViewModel.onNewGameButton,
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
                     Spacer(modifier = Modifier.height(24.dp))

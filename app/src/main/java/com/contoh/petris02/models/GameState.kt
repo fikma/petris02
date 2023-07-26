@@ -12,8 +12,8 @@ data class GameState(
     var isPaused: MutableState<Boolean> = mutableStateOf(false),
     var speed: Long = 700, // milliseconds
     val task: MutableList<TaskWrapper> = mutableListOf(),
+    var stateText: MutableState<String> = mutableStateOf("Resume game"),
 ) {
     lateinit var closeDrawer : () -> Unit
     lateinit var openDrawer : () -> Unit
-    lateinit var onNewGameButton: () -> Unit
 }

@@ -36,12 +36,14 @@ class GamePageViewModel @Inject constructor(
         }
     })
 
+    val onNewGameButton: () -> Unit = ::onNewGameButton
+    val onResumeGameButton: () -> Unit = ::onResumeGameButton
+
     val gameState = _gameState
 
     init {
         _gameState.closeDrawer = ::closeModalSheet
         _gameState.openDrawer = ::openModalSheet
-        _gameState.onNewGameButton = ::onNewGameButton
     }
 
     private fun closeModalSheet() {
@@ -58,11 +60,17 @@ class GamePageViewModel @Inject constructor(
         }
     }
 
+    private fun onResumeGameButton() {
+        closeModalSheet()
+        _gameState.stateText.value = "Resume game"
+    }
+
     private fun onNewGameButton() {
         resetBoard(_boardState.blocks)
         _tetrominoeState.blocks = resetTetrominoe()
         closeModalSheet()
         togglePausedState(false)
+        _gameState.stateText.value = "Resume game"
     }
 
     fun runUpdate() {

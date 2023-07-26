@@ -72,6 +72,8 @@ class TetrisBoardViewModel @Inject constructor(
                 _tetrominoeState.blocksQueue.add(resetTetrominoe())
                 setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
                 resetBoard(_boardState.blocks)
+                _gameState.stateText.value = "Game over"
+                _gameState.openDrawer()
                 return
             }
             // end game over logic
