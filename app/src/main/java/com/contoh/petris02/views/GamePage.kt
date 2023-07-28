@@ -5,6 +5,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +43,7 @@ fun GamePage(
     gamePageViewModel.modalSheetScope = rememberCoroutineScope()
 
     //Todo: move this logic to somewhere not compose
+    val uriHandler = LocalUriHandler.current
     val view = LocalView.current
     val window = (view.context as Activity).window
     window.navigationBarColor = MaterialTheme.colorScheme.surface.toArgb()
@@ -55,6 +58,14 @@ fun GamePage(
                     modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = Arrangement.Bottom
                 ) {
+                    NavigationDrawerItem(
+                        icon = { Icon(imageVector = Icons.Default.Info, contentDescription = "")},
+                        label = { Text(text = "https://github.com/fikma/petris02")},
+                        selected = false,
+                        onClick = { uriHandler.openUri("https://github.com/fikma/petris02") },
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+
                     NavigationDrawerItem(
                         icon = { Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "")},
                         label = { Text(text = gamePageViewModel.gameState.stateText.value)},
