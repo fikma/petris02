@@ -34,6 +34,7 @@ class TetrisBoardViewModel @Inject constructor(
         )
 
         _tetrominoeState.blocks = resetTetrominoe()
+        moveTetrominoeToCenter(_tetrominoeState.blocks, 10)
         setTetrominoeToBoard(
             _tetrominoeState.blocks,
             _boardState.blocks
@@ -72,6 +73,7 @@ class TetrisBoardViewModel @Inject constructor(
                 _tetrominoeState.blocksQueue.add(resetTetrominoe())
                 setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
                 resetBoard(_boardState.blocks)
+                moveTetrominoeToCenter(_tetrominoeState.blocks, 10)
                 _gameState.stateText.value = "Game over"
                 _gameState.openDrawer()
                 return
@@ -86,6 +88,7 @@ class TetrisBoardViewModel @Inject constructor(
             )
             setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
             moveTetrominoe(Position(0, -3), _tetrominoeState.blocks)
+            moveTetrominoeToCenter(_tetrominoeState.blocks, 10)
 
             val nextTetrominoe = _tetrominoeState.blocksQueue.peek()
             if (nextTetrominoe != null) {

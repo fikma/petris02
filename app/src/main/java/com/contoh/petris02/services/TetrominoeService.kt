@@ -46,6 +46,12 @@ fun resetTetrominoe() : TetrominoeBlocks {
     return result
 }
 
+fun moveTetrominoeToCenter(tetrominoeBlocks: TetrominoeBlocks, boardWidth: Int) {
+    val xPointOffset = boardWidth / 2 - tetrominoeBlocks.dimension.x
+
+    moveTetrominoe(Position(xPointOffset, 0), tetrominoeBlocks)
+}
+
 // credit: https://youtube.com/watch?v=zH_omFPqMO4
 fun rotateTetrominoe(tetrominoeBlocks: TetrominoeBlocks, clockWise: Boolean = true) {
     if (tetrominoeBlocks.shape == TetrominoeType.O) return
