@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.BuildConfig
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.ui.theme.Petris02Theme
 import com.contoh.petris02.viewModels.GamePageViewModel
@@ -41,11 +42,11 @@ fun TetrisBoard(
     }
     BoardGrid(
         boardList = tetrisBoardViewModel.boardState.blocks,
-        xBlockCount = tetrisBoardViewModel.boardState.xSize,
+        xBlockCount = tetrisBoardViewModel.boardState.boardSize.x,
         modifier = Modifier
             .size(
-                (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.xSize + 10).dp,
-                (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.ySize + 10).dp
+                (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.boardSize.x + 10).dp,
+                (tetrisBoardViewModel.boardState.blockSize * tetrisBoardViewModel.boardState.boardSize.y + 10).dp
             )
             .border(
                 width = 2.dp,
@@ -61,7 +62,9 @@ fun TetrisBoard(
 @Preview
 @Composable
 fun PreviewTetrisBoard() {
-    val boardState = BoardState()
+    val boardState = BoardState(
+        boardSize = Position(9, 10)
+    )
     val gameState = GameState()
     val tetrominoeState = TetrominoeState()
 
@@ -86,7 +89,9 @@ fun PreviewTetrisBoard() {
 )
 @Composable
 fun PreviewDarkTetrisBoard() {
-    val boardState = BoardState()
+    val boardState = BoardState(
+        boardSize = Position(10, 20)
+    )
     val gameState = GameState()
     val tetrominoeState = TetrominoeState()
 

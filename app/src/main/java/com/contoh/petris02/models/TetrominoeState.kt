@@ -87,10 +87,11 @@ data class TetrominoeState(
     val blocksQueue: Queue<TetrominoeBlocks> = LinkedList(
         listOf(resetTetrominoe(), resetTetrominoe())
     ),
-    val nextTetrominoeBoard: SnapshotStateList<BlockState> = mutableStateListOf()
+    val nextTetrominoeBoard: SnapshotStateList<BlockState> = mutableStateListOf(),
+    val nextTetrominoeBoardSize: Position = Position(4, 4)
 ) {
     init {
-        for (value in 0 until (4*4)) {
+        for (value in 0 until (nextTetrominoeBoardSize.x*nextTetrominoeBoardSize.y)) {
             nextTetrominoeBoard.add(BlockState())
         }
     }

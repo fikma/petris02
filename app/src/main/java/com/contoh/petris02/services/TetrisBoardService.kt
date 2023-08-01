@@ -16,33 +16,40 @@ fun clearBoardColor(boardBlocks: SnapshotStateList<BlockState>) {
     }
 }
 
-fun getBoardPosition(position: Position, boardXcount: Int = 10) : Int {
+fun getBoardPosition(
+    position: Position,
+    boardSize: Position
+) : Int {
     var result = 0
-    result = position.x + (position.y * boardXcount)
+    result = position.x + (position.y * boardSize.x)
     return result
 }
 
 fun clearLine(boardState: BoardState) {
-    for (y in boardState.ySize - 1 downTo 0) {
+    for (y in boardState.boardSize.y - 1 downTo 0) {
         var counter = 0
-        for (x in 0 until boardState.xSize) {
-            val pos = getBoardPosition(Position(x, y))
+        for (x in 0 until boardState.boardSize.x) {
+            val pos = getBoardPosition(Position(x, y), boardState.boardSize)
             if (boardState.blocks[pos].type != BlockType.EMPTY)
                 counter += 1
         }
 
-        if (counter >= boardState.xSize) {
-            moveLinesDown(Position(0, y), boardState.blocks)
+        if (counter >= boardState.boardSize.x) {
+            moveLinesDown(Position(0, y), boardState.blocks, boardState.boardSize)
         }
     }
 }
 
-fun moveLinesDown(startAt: Position, boardBlocks: SnapshotStateList<BlockState>) {
+fun moveLinesDown(
+    startAt: Position,
+    boardBlocks: SnapshotStateList<BlockState>,
+    boardSize: Position
+) {
     for (y in startAt.y downTo 1) {
         if (startAt.y < 0) continue
-        for (x in 9 downTo 0) {
-            val pos = getBoardPosition(Position(x, y))
-            val posMinusOne = getBoardPosition(Position(x, y - 1))
+        for (x in boardSize.x - 1 downTo 0) {
+            val pos = getBoardPosition(Position(x, y), boardSize)
+            val posMinusOne = getBoardPosition(Position(x, y - 1), boardSize)
             boardBlocks[pos] = boardBlocks[posMinusOne].copy()
         }
     }
@@ -52,15 +59,15 @@ fun setTetrominoeToBoard(
     tetrominoeBlocks: TetrominoeBlocks,
     boardBlocks: SnapshotStateList<BlockState>,
     setTypeToBoard: Boolean = false,
-    boardXsize: Int = 10
+    boardSize: Position
 ) {
     for (index in 0 until tetrominoeBlocks.size) {
-        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= 20)
+        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= boardSize.y)
             continue
-        if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= 10)
+        if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= boardSize.x)
             continue
         boardBlocks.set(
-            getBoardPosition(tetrominoeBlocks[index].position, boardXsize),
+            getBoardPosition(tetrominoeBlocks[index].position, boardSize = boardSize),
             if (setTypeToBoard)
                 tetrominoeBlocks[index].copy(type = tetrominoeBlocks[index].type)
             else

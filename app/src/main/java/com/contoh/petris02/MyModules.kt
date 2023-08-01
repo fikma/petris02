@@ -2,6 +2,7 @@ package com.contoh.petris02
 
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,9 @@ import javax.inject.Singleton
 class MyModules {
     @Provides
     @Singleton
-    fun provideBoardState() : BoardState = BoardState()
+    fun provideBoardState() : BoardState = BoardState(
+        boardSize = Position(12, 22)
+    )
 
     @Provides
     @Singleton

@@ -67,7 +67,7 @@ fun NextTetrominoePreviewDark() {
         setTetrominoeToBoard(
             nextTetrominoe,
             tetrominoeState.nextTetrominoeBoard,
-            boardXsize = 4
+            boardSize = tetrominoeState.nextTetrominoeBoardSize
         )
     }
 
@@ -76,7 +76,7 @@ fun NextTetrominoePreviewDark() {
             BoardGrid(
                 boardList = tetrominoeState.nextTetrominoeBoard,
                 smallBlockSize = true,
-                xBlockCount = 4,
+                xBlockCount = tetrominoeState.nextTetrominoeBoardSize.x,
                 modifier = Modifier
                     .size(
                         (10 * 4).dp,
@@ -102,7 +102,7 @@ fun NextTetrominoePreview() {
         setTetrominoeToBoard(
             nextTetrominoe,
             tetrominoeState.nextTetrominoeBoard,
-            boardXsize = 4
+            boardSize = tetrominoeState.nextTetrominoeBoardSize
         )
     }
 
@@ -111,7 +111,7 @@ fun NextTetrominoePreview() {
             BoardGrid(
                 boardList = tetrominoeState.nextTetrominoeBoard,
                 smallBlockSize = true,
-                xBlockCount = 4,
+                xBlockCount = tetrominoeState.nextTetrominoeBoardSize.x,
                 modifier = Modifier
                     .size(
                         (10 * 4).dp,

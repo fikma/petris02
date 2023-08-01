@@ -25,10 +25,10 @@ class TetrominoeViewModel @Inject constructor(
         clearBoardColor(_boardState.blocks)
         moveCommand.execute()
 
-        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks, boardSize = _boardState.boardSize))
             undoFlag = true
 
-        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true))
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true, boardSize = _boardState.boardSize))
             undoFlag = true
 
         if (undoFlag)
@@ -36,7 +36,8 @@ class TetrominoeViewModel @Inject constructor(
 
         setTetrominoeToBoard(
             _tetrominoeState.blocks,
-            _boardState.blocks
+            _boardState.blocks,
+            boardSize = _boardState.boardSize
         )
     }
 
@@ -56,10 +57,10 @@ class TetrominoeViewModel @Inject constructor(
 
         rotateCommand.execute()
 
-        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks, _boardState.boardSize))
             undoFlag = true
 
-        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true))
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkXonly = true, boardSize = _boardState.boardSize))
             undoFlag = true
 
         if (undoFlag)
@@ -67,7 +68,8 @@ class TetrominoeViewModel @Inject constructor(
 
         setTetrominoeToBoard(
             _tetrominoeState.blocks,
-            _boardState.blocks
+            _boardState.blocks,
+            boardSize = _boardState.boardSize
         )
     }
 
@@ -75,7 +77,8 @@ class TetrominoeViewModel @Inject constructor(
         clearBoardColor(_boardState.blocks)
         moveTetrominoeDown(
             _tetrominoeState,
-            _boardState.blocks
+            _boardState.blocks,
+            boardSize = _boardState.boardSize
         )
     }
 }

@@ -37,7 +37,8 @@ class TetrisBoardViewModel @Inject constructor(
         moveTetrominoeToCenter(_tetrominoeState.blocks, 10)
         setTetrominoeToBoard(
             _tetrominoeState.blocks,
-            _boardState.blocks
+            _boardState.blocks,
+            boardSize = _boardState.boardSize
         )
 
         val nextTetrominoe = _tetrominoeState.blocksQueue.peek()
@@ -47,7 +48,7 @@ class TetrisBoardViewModel @Inject constructor(
                 nextTetrominoe,
                 _tetrominoeState.nextTetrominoeBoard,
                 true,
-                4
+                _tetrominoeState.nextTetrominoeBoardSize
             )
         }
     }
@@ -61,10 +62,10 @@ class TetrisBoardViewModel @Inject constructor(
         val moveCommand = MoveCommand(Position.DOWN(), _tetrominoeState.blocks)
         moveCommand.execute()
 
-        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkYonly = true))
+        if (isTetrominoeOutsideBoard(_tetrominoeState.blocks, checkYonly = true, boardSize = _boardState.boardSize))
             undoFlag = true
 
-        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks))
+        if (isCollideWithTetrominoeBlock(_tetrominoeState.blocks, _boardState.blocks, _boardState.boardSize))
             undoFlag = true
 
         if (undoFlag) {
@@ -84,7 +85,8 @@ class TetrisBoardViewModel @Inject constructor(
             setTetrominoeToBoard(
                 _tetrominoeState.blocks,
                 _boardState.blocks,
-                true
+                true,
+                _boardState.boardSize
             )
             setNextTetrominoeFromQueue(_tetrominoeState.blocksQueue, _tetrominoeState.blocks)
             moveTetrominoe(Position(0, -3), _tetrominoeState.blocks)
@@ -96,7 +98,7 @@ class TetrisBoardViewModel @Inject constructor(
                 setTetrominoeToBoard(
                     nextTetrominoe,
                     _tetrominoeState.nextTetrominoeBoard,
-                    boardXsize = 4
+                    boardSize = _tetrominoeState.nextTetrominoeBoardSize
                 )
             }
         }
@@ -118,7 +120,8 @@ class TetrisBoardViewModel @Inject constructor(
     private fun setTetrominoeColor() {
         setTetrominoeToBoard(
             _tetrominoeState.blocks,
-            _boardState.blocks
+            _boardState.blocks,
+            boardSize = _boardState.boardSize
         )
     }
 }

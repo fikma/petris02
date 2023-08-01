@@ -7,13 +7,12 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 
 data class BoardState(
     val toggle: MutableState<Boolean> = mutableStateOf(true), // hack for game loop
-    val xSize: Int = 10,
-    val ySize: Int = 20,
+    var boardSize: Position,
     val blockSize: Int = 30,
     var blocks: SnapshotStateList<BlockState> = mutableStateListOf()
 ) {
     init {
-        for (number in 0 until (xSize * ySize)) {
+        for (number in 0 until (boardSize.x * boardSize.y)) {
             blocks.add(BlockState(color = null))
         }
     }

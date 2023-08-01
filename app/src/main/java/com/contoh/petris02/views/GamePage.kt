@@ -23,6 +23,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
 import com.contoh.petris02.models.GameState
+import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.ui.theme.Petris02Theme
 import com.contoh.petris02.viewModels.GamePageViewModel
@@ -104,7 +105,7 @@ fun GamePage(
                                     BoardGrid(
                                         boardList = tetrominoeViewModel._tetrominoeState.nextTetrominoeBoard,
                                         smallBlockSize = true,
-                                        xBlockCount = 4,
+                                        xBlockCount = tetrominoeViewModel._tetrominoeState.nextTetrominoeBoardSize.x,
                                         modifier = Modifier
                                     )
                                 }
@@ -154,7 +155,9 @@ fun GamePage(
 )
 @Composable
 fun PreviewGamePage() {
-    val boardState = BoardState()
+    val boardState = BoardState(
+        boardSize = Position(10, 20)
+    )
     val gameState = GameState()
     val tetrominoeState = TetrominoeState()
 

@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.contoh.petris02.models.BoardState
+import com.contoh.petris02.models.Position
 import com.contoh.petris02.models.TetrominoeState
 import com.contoh.petris02.ui.theme.Petris02Theme
 import com.contoh.petris02.viewModels.TetrominoeViewModel
@@ -90,7 +91,9 @@ fun ControlsButton(
 )
 @Composable
 fun PreviewControlsButton() {
-    val boardState = BoardState()
+    val boardState = BoardState(
+        boardSize = Position(10, 20)
+    )
     val tetrominoeState = TetrominoeState()
 
     val tetrominoeViewModel = TetrominoeViewModel(
@@ -112,7 +115,9 @@ fun PreviewControlsButton() {
 )
 @Composable
 fun PreviewDarkControlsButton() {
-    val boardState = BoardState()
+    val boardState = BoardState(
+        boardSize = Position(10, 20)
+    )
     val tetrominoeState = TetrominoeState()
 
     val tetrominoeViewModel = TetrominoeViewModel(

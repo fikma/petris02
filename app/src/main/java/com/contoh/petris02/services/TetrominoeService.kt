@@ -75,15 +75,16 @@ fun rotateTetrominoe(tetrominoeBlocks: TetrominoeBlocks, clockWise: Boolean = tr
 
 fun moveTetrominoeDown(
     tetrominoeState: TetrominoeState,
-    boardBlocks: SnapshotStateList<BlockState>
+    boardBlocks: SnapshotStateList<BlockState>,
+    boardSize: Position
 ) {
     val moveCommand = MoveCommand(Position.DOWN(), tetrominoeState.blocks)
     var undoFlag = false
     while (true) {
         moveCommand.execute()
-        if (isTetrominoeOutsideBoard(tetrominoeState.blocks, checkYonly = true))
+        if (isTetrominoeOutsideBoard(tetrominoeState.blocks, checkYonly = true, boardSize = boardSize))
             undoFlag = true
-        if (isCollideWithTetrominoeBlock(tetrominoeState.blocks, boardBlocks))
+        if (isCollideWithTetrominoeBlock(tetrominoeState.blocks, boardBlocks, boardSize = boardSize))
             undoFlag = true
 
         if (undoFlag) {
@@ -91,7 +92,8 @@ fun moveTetrominoeDown(
             setTetrominoeToBoard(
                 tetrominoeState.blocks,
                 boardBlocks,
-                true
+                true,
+                boardSize = boardSize
             )
 
             val nextTetrominoe = tetrominoeState.blocksQueue.peek()
@@ -100,7 +102,7 @@ fun moveTetrominoeDown(
                 setTetrominoeToBoard(
                     nextTetrominoe,
                     tetrominoeState.nextTetrominoeBoard,
-                    boardXsize = 4
+                    boardSize = tetrominoeState.nextTetrominoeBoardSize
                 )
             }
             return
@@ -117,14 +119,15 @@ fun moveTetrominoe(direction: Position, tetrominoeBlocks: TetrominoeBlocks) {
 
 fun isCollideWithTetrominoeBlock(
     tetrominoeBlocks: TetrominoeBlocks,
-    boardBlocks: SnapshotStateList<BlockState>
+    boardBlocks: SnapshotStateList<BlockState>,
+    boardSize: Position
 ) : Boolean {
     for (index in 0 until tetrominoeBlocks.size) {
-        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= 20)
+        if (tetrominoeBlocks[index].position.y < 0 || tetrominoeBlocks[index].position.y >= boardSize.y)
             continue
-        if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= 10)
+        if (tetrominoeBlocks[index].position.x < 0 || tetrominoeBlocks[index].position.x >= boardSize.x)
             continue
-        val blockPosition = getBoardPosition(tetrominoeBlocks[index].position)
+        val blockPosition = getBoardPosition(tetrominoeBlocks[index].position, boardSize = boardSize)
         if (boardBlocks[blockPosition].type != BlockType.EMPTY)
             return true
     }
@@ -136,16 +139,16 @@ fun isTetrominoeOutsideBoard(
     tetrominoeBlocks: TetrominoeBlocks,
     checkXonly: Boolean = false,
     checkYonly: Boolean = false,
-    size: Position = Position(10, 20)
+    boardSize: Position
 ) : Boolean {
     for (index in 0 until tetrominoeBlocks.size) {
         if (tetrominoeBlocks[index].position.y < 0) continue
         if (checkXonly) {
             if (tetrominoeBlocks[index].position.x < 0) return true
-            if (tetrominoeBlocks[index].position.x >= size.x) return true
+            if (tetrominoeBlocks[index].position.x >= boardSize.x) return true
         }
         if (checkYonly)
-            if (tetrominoeBlocks[index].position.y >= 20) return true
+            if (tetrominoeBlocks[index].position.y >= boardSize.y) return true
     }
 
     return false
